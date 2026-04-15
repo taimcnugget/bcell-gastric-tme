@@ -5,11 +5,12 @@
 #          perform QC filtering, and save for downstream use.
 #
 # Dataset: GSE163558 — gastric cancer TME scRNA-seq
-#          10 samples: primary tumor (3), healthy (1), and metastatic
-#          sites (liver (2), lymph node (2), ovary, peritoneum)
+#          10 samples: primary tumor (3), healthy (1), and
+#          metastatic sites (liver (2), lymph node (2), ovary,
+#          peritoneum)
 #
 # Input:   Raw data downloaded from GEO (GSE163558_RAW.tar)
-# Output:  results/01_bcell_gc_seurat_qc.rds
+# Output:  01_bcell_gc_seurat_qc.rds
 #          figures/01_vln_qc_metrics.png
 #          figures/01_scatter_umi_mt.png
 #          figures/01_scatter_umi_genes.png
@@ -24,12 +25,12 @@
 # CRAN: Seurat, Matrix, dplyr, ggplot2, patchwork
 # Bioconductor: GEOquery
 #
-# Note: On Kaggle, Matrix, dplyr, ggplot2, and patchwork 
+# Note: On Kaggle, Matrix, dplyr, ggplot2, and patchwork
 # are pre-installed. Seurat and GEOquery require installation
 # each session (see install block below).
 #
 # Local install:
-#   install.packages(c("Seurat", "Matrix", "dplyr", 
+#   install.packages(c("Seurat", "Matrix", "dplyr",
 #                      "ggplot2", "patchwork"))
 #   BiocManager::install("GEOquery")
 
@@ -50,19 +51,20 @@ set.seed(3)
 
 # --- Parameters
 
-data_directory    <- "/kaggle/working/GSE163558"
+data_directory <- "/kaggle/working/GSE163558"
 extracted_directory <- file.path(data_directory, "extracted")
-output_directory     <- "/kaggle/working"
-figure_directory     <- file.path(output_directory, "figures")
+output_directory <- "/kaggle/working"
+figure_directory <- file.path(output_directory, "figures")
 
 # QC thresholds — matched to original authors' parameters
 min_features <- 200
 max_features <- 5000
-max_mt_pct   <- 20
+max_mt_pct <- 20
 
 # Seurat object creation thresholds
 min_cells   <- 3
 dir.create(figure_directory, showWarnings = FALSE, recursive = TRUE)
+
 
 
 # --- Condition mapping
@@ -143,7 +145,9 @@ condition_vector <- condition_map[as.character(results$orig.ident)]
 names(condition_vector) <- colnames(results)
 
 
-results <- AddMetaData(results, metadata = condition_vector, col.name = "condition")
+results <- AddMetaData(results, 
+                       metadata = condition_vector,
+                       col.name = "condition")
 
 # Verify
 print(table(results$condition))
@@ -181,7 +185,7 @@ plt_umi_mt <- FeatureScatter(results,
                              feature1 = "nCount_RNA",
                              feature2 = "percent.mt",
                              group.by = "condition") +
-  ggtitle("UMI Count vs Mitochondrial %") + 
+  ggtitle("UMI Count vs Mitochondrial %") +
   xlab("UMI Count") +
   ylab("Mitochondrial %")
 
@@ -192,8 +196,8 @@ ggsave(file.path(figure_directory, "01_scatter_umi_mt.png"),
 plt_umi_genes <- FeatureScatter(results,
                                 feature1 = "nCount_RNA",
                                 feature2 = "nFeature_RNA",
-                                group.by = "condition") + 
-  ggtitle("UMI Count vs Gene Count") + 
+                                group.by = "condition") +
+  ggtitle("UMI Count vs Gene Count") +
   xlab("UMI Count") +
   ylab("Gene Count")
 
@@ -216,7 +220,6 @@ print((table(results$condition)))
 
 # --- Save output
 
-saveRDS(results, file.path(output_directory,
-                           "results/01_bcell_gc_seurat_qc.rds"))
+saveRDS(results, file.path(output_directory, "01_bcell_gc_seurat_qc.rds"))
 
 message("Saved: results/01_bcell_gc_seurat_qc.rds")
