@@ -1,2 +1,4 @@
 *.red
 *.RDS
+*.csv
+*.DS_Store
