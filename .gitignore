@@ -1,4 +1,5 @@
-*.red
+*.rds
 *.RDS
 *.csv
+*.CSV
 *.DS_Store
