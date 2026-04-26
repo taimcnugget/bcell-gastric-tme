@@ -74,7 +74,7 @@ There were a total of 16 cell types found during clustering:
 * Mast cells
 * GC B cells
 
-![Annotated UMAP](figures/03_annotated_UMAP.png)
+![Annotated UMAP](../figures/03_annotated_UMAP.png)
 
 ## B Cell Subset
 After subsetting, there were a total of 6 B cell types identified: 
@@ -88,23 +88,35 @@ After subsetting, there were a total of 6 B cell types identified:
 Here we can see that B cell differentiation moves from left to right showing that more differentiated cells (i.e. plasma cells) are further away than more naive B cells, which is biologically accurate. Away from the "normal" B cells, are germinal center cells high are highly proliferative B cells that normally form tertiary lympoid structures (TLS) in tumors. TLS indicte an active immune response and are typically correlated with improved patient outcomes [6-8].  *While these cells were not further investigated in this analysis, their proportions in each tissue type was quantified (see 05_b_cell_TME_proportions.png for more information).
 
 
-![Annotated B cell Subset UMAP](figures/04_b_cell_annotated_UMAP.png)
+![Annotated B cell Subset UMAP](../figures/04_b_cell_annotated_UMAP.png)
 
 ## Differentially Expressed Genes in B cell Subsets
 During analysis, it was observed that plasma cells and memory cells had the highest DEGs in metastatic conditions compared to healthy tissue. Interestingly, these are the cell types that are most protective of the body. Plasma cells can produce both tumor promoting and tumor killing antibodies, so it is very interesting that there were ~2k DEGs in this group. When looking at the volcano plot, many of the DEGs are downregulated, which suggests that the TME is suppressing plasma cell functions. Memory B cells, as their name suggests, act as a memory of what they should protect the body from. Since both of these B cell types are being reprogrammed within the TME, this could potentially be an avenue that should be further investigated. 
 
 Additionally, 3 of the 6 B cell subtypes (Naive, GC, and Activated Naive B cells) had no DEG when compared to healthy tissue, indicating that as tumors become metastatic, they are biologically more different than primary tissues. 
 
-![DEG in B cell Subtypes](figures/05_sig_DEG_comparison.png)
-![Healthy:Plasma cell volcano plot](figures/05_plasma_healthy_mets_deg.png)
-![Healthy:Memory cell volcano plot](figures/05_memory_healthy_mets_deg.png)
+![DEG in B cell Subtypes](../figures/05_sig_DEG_comparison.png)
+![Healthy:Plasma cell volcano plot](../figures/05_plasma_healthy_mets_deg.png)
+![Healthy:Memory cell volcano plot](../figures/05_memory_healthy_mets_deg.png)
 
 ## Trajectory Analysis
 Interestingly, there were 4 lineage that were observed. Normally, B cells differentiate as seen in the figure below. However, there was an additional lineage where B cells are "stuck" in the activated stage without further differentiation. This observation can be a true representation of the TME reprograming the normal differentaiton path of B cells. Interestingly this lineage of cells is only seen in metastatic tissue samples,further suggesting that the metastatic TME is reprogramming B cells to be more naive and potentially less functional. This is an interesting find that can be further explored and validated with in vitro and in vivo experiments. 
 
 This finding aligns with the DE analysis results, where memory and plasma cells showed the highest number of differentially expressed genes in metastatic conditions, suggesting a coordinated suppression of mature B cell function in the metastatic TME.
 
-![Lineages UMAP](figures/06_pseudotime_umap.png)
+```mermaid
+flowchart TD
+    Transitional[Transitional B Cell] --> Naive[Naive B Cell]
+    Naive --> Activated1[Activated B Cell]
+    Activated1 --> GC[Germinal Center B Cell]
+    GC --> Memory[Memory B Cell]
+    GC --> Plasma[Plasma Cell]
+
+    Memory --> Activated2[Reactivated Memory B Cell]
+    Activated2 --> Plasma
+```
+
+![Lineages UMAP](../figures/06_pseudotime_umap.png)
 
 # Limitations
 * Single healthy patient
